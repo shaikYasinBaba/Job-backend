@@ -1,6 +1,5 @@
-// index.js
 import express from 'express'
-import cors from 'cors' // ✅ ADD THIS LINE
+import cors from 'cors'
 import dotenv from 'dotenv'
 
 import authRoutes from './routes/auth.js'
@@ -11,7 +10,23 @@ import adminRoutes from './routes/admin.js'
 dotenv.config()
 const app = express()
 
-app.use(cors({ origin: 'http://localhost:3000' })) // ✅ ENABLE CORS
+const allowedOrigins = [
+  'http://localhost:3000',             // dev frontend URL
+  'https://your-frontend-domain.com'   // <-- REPLACE with your real frontend URL
+]
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true)
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}))
+
 app.use(express.json())
 
 app.use('/api/auth', authRoutes)
