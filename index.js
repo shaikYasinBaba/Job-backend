@@ -13,7 +13,7 @@ const app = express()
 
 const allowedOrigins = [
   'http://localhost:3000',             // dev frontend URL
-  'https://your-frontend-domain.com'   // <-- REPLACE with your real frontend URL
+  'https://job-frontend-1-wl63.onrender.com'   // <-- REPLACE with your real frontend URL
 ]
 
 app.use(cors({
